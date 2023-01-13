@@ -1,0 +1,62 @@
+{
+  "diy": {
+    "id": 1,
+    "title": "Do it yourself projects",
+    "desc": "This is a description of a category of content that's returned from a server and has a friendly introduction to how the content is related",
+    "tags": "diy, projects, makers",
+    "posts": [
+      {
+        "id": 1,
+        "title": "First Post!",
+        "description": "This is the blog post that talks about why the blogger decided on the blog engine they did despite the fact no reader has ever cared.",
+        "body": "Lots of content goes here, but I'm not going to write it for this demo.",
+        "author": {
+          "id": 1,
+          "name": "Ryan",
+          "bio": "I like to make things"
+        }
+      },
+      {
+        "id": 2,
+        "title": "Second Post!",
+        "description": "This is usually the post that talks about why the blog is already behind the schedule specified in the first post",
+        "body": "Lots of content goes here, but I'm not going to write it for this demo.",
+        "author": {
+          "id": 1,
+          "name": "Ryan",
+          "bio": "I like to make things"
+        }
+      }
+    ]
+  },
+  "cooking": {
+    "id": 1,
+    "title": "Things to do with food",
+    "desc": "This is a description of a category of content that's returned from a server and has a friendly introduction to how the content is related. But this one happens to be food related.",
+    "tags": "food, recipes, makers",
+    "posts": [
+      {
+        "id": 3,
+        "title": "Poptarts",
+        "description": "Five things you didn't know you could do with a poptart. Number 3 will blow your mind!",
+        "body": "Lots of content goes here, but I'm not going to write it for this demo.",
+        "author": {
+          "id": 2,
+          "name": "Jon",
+          "bio": "I too like to make things"
+        }
+      },
+      {
+        "id": 4,
+        "title": "Mac and Cheese",
+        "description": "This could be simply, but that's not my style.",
+        "body": "Lots of content goes here, but I'm not going to write it for this demo.",
+        "author": {
+          "id": 1,
+          "name": "Ryan",
+          "bio": "I like to make things"
+        }
+      }
+    ]
+  }
+}

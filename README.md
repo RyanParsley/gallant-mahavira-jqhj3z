@@ -1,10 +1,9 @@
-# Node.js template
+# Rust Starter
 
-This is a Node.js project.
+Here you can easily get started with [Rust](https://www.rust-lang.org/) and experiment. Make sure to Fork this template by clicking the button in the top right corner!
 
-Add your [configuration](https://codesandbox.io/docs/projects/learn/setting-up/tasks) to optimize it for [CodeSandbox](https://codesandbox.io/p/dashboard).
+Check out [src/main.rs](./src/main.rs) for the code. When you save, it will automatically recompile and show a new version thanks to [`cargo-watch`](https://crates.io/crates/cargo-watch).
 
-## Resources
+To add a new dependency, open a new terminal (```CMD/Ctrl + ` ```) and run `cargo add ...`.
 
-- [CodeSandbox Projects — Docs](https://codesandbox.io/docs/projects)
-- [CodeSandbox — Discord](https://discord.gg/Ggarp3pX5H)# Node.js template
+After rebuilding the environment by changing the [Dockerfile](./.codesandbox/Dockerfile), you might have to restart `rust-analyzer` by doing `CMD/Ctrl+K` and "Restart rust server" or restart the VM by clicking the CodeSandbox logo (in the top left) and clicking "Restart Instance".
