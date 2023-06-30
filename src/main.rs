@@ -46,6 +46,8 @@ fn main() {
 
     let _by_author = get_posts_by_author_id(&source, 0);
 
+    let _by_category = get_posts_by_category(&source, "diy");
+
 
     println!("The response is {:?}", source);
 
@@ -67,6 +69,13 @@ fn get_post_by_id(collection: &Response, id: i64) -> Post {
 
 fn get_posts_by_author_id(collection: &Response, id: i64) -> Vec<Post> {
     get_all_posts(collection).into_iter().filter(|post: &Post| post.author.id == id).collect::<Vec<Post>>()
+}
+fn get_posts_by_category(collection: &Response, _category: &str) -> Vec<Post> {
+    // todo: this only works half the time
+    // how do I index a stuct dynamically
+    // collection[category] is not a thing
+
+    collection.diy.posts.clone()
 }
 
 #[cfg(test)]
@@ -96,5 +105,13 @@ mod tests {
         )
         .unwrap();
         assert_eq!(get_posts_by_author_id(&source, 1).len(), 3);
+    }
+    #[test]
+    fn retrieves_posts_by_category_key() {
+        let source: Response = serde_json::from_str(
+            &fs::read_to_string("./src/response.json").expect("Uh oh! I can\'t open the file."),
+        )
+        .unwrap();
+        assert_eq!(get_posts_by_category(&source, "diy").len(), 42);
     }
 }
