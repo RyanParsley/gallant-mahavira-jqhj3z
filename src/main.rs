@@ -49,7 +49,12 @@ fn main() {
 }
 
 fn get_all_posts(response: &Response) -> Vec<Post> {
-    [&response.cooking.posts[..], &response.diy.posts[..]].concat()
+    // todo: this works, but doesn't scale
+    // enhance to work for any number of categories
+    [
+        &response.cooking.posts[..],
+        &response.diy.posts[..]
+    ].concat()
 }
 fn get_post_by_id(collection: &Response, id: i64) -> Post {
     get_all_posts(collection).iter().filter(|post: &&Post| post.id == id).collect::<Vec<_>>()[0].clone()
