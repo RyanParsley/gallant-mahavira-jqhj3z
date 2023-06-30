@@ -44,8 +44,12 @@ fn main() {
 
     let _first = get_post_by_id(&source, 1);
 
+    let _by_author = get_posts_by_author_id(&source, 0);
+
 
     println!("The response is {:?}", source);
+
+    println!("by author {:?}", source);
 }
 
 fn get_all_posts(response: &Response) -> Vec<Post> {
@@ -56,8 +60,13 @@ fn get_all_posts(response: &Response) -> Vec<Post> {
         &response.diy.posts[..]
     ].concat()
 }
+
 fn get_post_by_id(collection: &Response, id: i64) -> Post {
-    get_all_posts(collection).iter().filter(|post: &&Post| post.id == id).collect::<Vec<_>>()[0].clone()
+    get_all_posts(collection).into_iter().filter(|post: &Post| post.id == id).collect::<Vec<_>>()[0].clone()
+}
+
+fn get_posts_by_author_id(collection: &Response, id: i64) -> Vec<Post> {
+    get_all_posts(collection).into_iter().filter(|post: &Post| post.author.id == id).collect::<Vec<Post>>()
 }
 
 #[cfg(test)]
@@ -79,5 +88,13 @@ mod tests {
         )
         .unwrap();
         assert_eq!(get_post_by_id(&source, 1).title, "First Post!");
+    }
+    #[test]
+    fn retrieves_posts_by_author_id() {
+        let source: Response = serde_json::from_str(
+            &fs::read_to_string("./src/response.json").expect("Uh oh! I can\'t open the file."),
+        )
+        .unwrap();
+        assert_eq!(get_posts_by_author_id(&source, 1).len(), 3);
     }
 }
