@@ -88,47 +88,38 @@ fn get_posts_by_category(collection: &Response, _category: &str) -> Vec<Post> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    fn load_json_response() -> Response {
+        serde_json::from_str(
+            &fs::read_to_string("./src/response.json").expect("Uh oh! I can\'t open the file."),
+        )
+        .unwrap()
+    }
 
     #[test]
     fn retrieves_all_posts() {
-        let source: Response = serde_json::from_str(
-            &fs::read_to_string("./src/response.json").expect("Uh oh! I can\'t open the file."),
-        )
-        .unwrap();
+        let source = load_json_response();
         assert_eq!(get_all_posts(&source).len(), 4);
     }
 
     #[test]
     fn flattens_category_data_into_all_posts() {
-        let source: Response = serde_json::from_str(
-            &fs::read_to_string("./src/response.json").expect("Uh oh! I can\'t open the file."),
-        )
-        .unwrap();
+        let source = load_json_response();
         assert_eq!(get_all_posts(&source)[0].category, Some("cooking".to_string()));
     }
     #[test]
     fn retrieves_a_post() {
-        let source: Response = serde_json::from_str(
-            &fs::read_to_string("./src/response.json").expect("Uh oh! I can\'t open the file."),
-        )
-        .unwrap();
+        let source = load_json_response();
         assert_eq!(get_all_posts(&source).len(), 4);
         assert_eq!(get_post_by_id(&source, 1).title, "First Post!");
     }
     #[test]
     fn retrieves_posts_by_author_id() {
-        let source: Response = serde_json::from_str(
-            &fs::read_to_string("./src/response.json").expect("Uh oh! I can\'t open the file."),
-        )
-        .unwrap();
+        let source = load_json_response();
         assert_eq!(get_posts_by_author_id(&source, 1).len(), 3);
     }
     #[test]
     fn retrieves_posts_by_category_key() {
-        let source: Response = serde_json::from_str(
-            &fs::read_to_string("./src/response.json").expect("Uh oh! I can\'t open the file."),
-        )
-        .unwrap();
+        let source = load_json_response();
         assert_eq!(get_posts_by_category(&source, "diy").len(), 2);
     }
 }
