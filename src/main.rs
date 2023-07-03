@@ -58,8 +58,15 @@ fn get_all_posts(response: &Response) -> Vec<Post> {
     // todo: this works, but doesn't scale
     // enhance to work for any number of categories
     [
-        &response.cooking.posts[..],
-        &response.diy.posts[..]
+        response.cooking.posts[..]
+            .iter()
+            .map(| post: &Post | -> Post { Post { category: Some("cooking".to_string()), ..post.clone() } } )
+            .collect::<Vec<Post>>(),
+
+        response.diy.posts[..]
+            .iter()
+            .map(| post: &Post | Post { category: Some("diy".to_string()), ..post.clone()  })
+            .collect::<Vec<Post>>(),
     ].concat()
 }
 
@@ -70,12 +77,12 @@ fn get_post_by_id(collection: &Response, id: i64) -> Post {
 fn get_posts_by_author_id(collection: &Response, id: i64) -> Vec<Post> {
     get_all_posts(collection).into_iter().filter(|post: &Post| post.author.id == id).collect::<Vec<Post>>()
 }
+
 fn get_posts_by_category(collection: &Response, _category: &str) -> Vec<Post> {
     // todo: this only works half the time
     // how do I index a stuct dynamically
     // collection[category] is not a thing
-
-    collection.diy.posts.clone()
+    collection.diy.posts.clone().into_iter().map(| post: post::Post | Post { category: Some("diy".to_string()), ..post}).collect()
 }
 
 #[cfg(test)]
@@ -90,12 +97,22 @@ mod tests {
         .unwrap();
         assert_eq!(get_all_posts(&source).len(), 4);
     }
+
+    #[test]
+    fn flattens_category_data_into_all_posts() {
+        let source: Response = serde_json::from_str(
+            &fs::read_to_string("./src/response.json").expect("Uh oh! I can\'t open the file."),
+        )
+        .unwrap();
+        assert_eq!(get_all_posts(&source)[0].category, Some("cooking".to_string()));
+    }
     #[test]
     fn retrieves_a_post() {
         let source: Response = serde_json::from_str(
             &fs::read_to_string("./src/response.json").expect("Uh oh! I can\'t open the file."),
         )
         .unwrap();
+        assert_eq!(get_all_posts(&source).len(), 4);
         assert_eq!(get_post_by_id(&source, 1).title, "First Post!");
     }
     #[test]
@@ -112,6 +129,6 @@ mod tests {
             &fs::read_to_string("./src/response.json").expect("Uh oh! I can\'t open the file."),
         )
         .unwrap();
-        assert_eq!(get_posts_by_category(&source, "diy").len(), 42);
+        assert_eq!(get_posts_by_category(&source, "diy").len(), 2);
     }
 }
